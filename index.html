@@ -17,6 +17,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="language" content="English">
     <meta name="revisit-after" content="28 days">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 </head>
 
 <body class="bg-white">
@@ -114,6 +115,79 @@
                         class="-m-2 rounded-xl bg-zinc-900/5 p-2 ring-1 ring-inset ring-zinc-900/10 lg:-m-4 lg:rounded-2xl lg:p-4">
                         <img src="/assets/img/test.png" alt="App screenshot" width="2432" height="1442"
                             class="w-[76rem] rounded-md shadow-2xl ring-1 ring-zinc-900/10">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white">
+        <div class="mx-auto py-24 sm:px-6 sm:py-32 lg:px-8">
+            <div class="mx-auto max-w-2xl lg:text-center">
+                <h2 class="text-lg font-semibold leading-8 tracking-tight text-emerald-600">
+                    Test KayleAI
+                </h2>
+                <p class="mt-2 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
+                    Try our demo to see how KayleAI works
+                </p>
+                <p class="mt-6 text-lg leading-8 text-zinc-600">
+                    Here you can test KayleAI out before you even create an account!
+                </p>
+            </div>
+            <div
+                class="relative isolate overflow-hidden bg-gray-900 shadow-2xl sm:rounded-3xl lg:flex lg:gap-x-20 lg:pt-0 mt-8 mx-auto max-w-4xl">
+                <div class="mx-auto max-w-2xl md:mx-0 md:max-w-none">
+                    <div class="w-screen overflow-visible rounded-tl-xl bg-gray-900">
+                        <div class="flex bg-gray-800/40 ring-1 ring-white/5">
+                            <div class="-mb-px flex text-sm font-medium leading-6 text-gray-400">
+                                <div
+                                    class="border-b border-r border-b-white/20 border-r-white/10 bg-white/5 py-2 px-4 text-white">
+                                    &nbsp;&nbsp;&nbsp;terminal
+                                </div>
+                                <div class="border-r border-gray-600/10 py-2 px-4">api.kayle.ai</div>
+                            </div>
+                        </div>
+                        <div class="pt-6 px-6">
+                            <pre class="text-white">KayleAI’s Testing Terminal
+Here you can see whether a message will be flagged up by KayleAI’s filters!
+<span class="text-emerald-400">kayle@ai~$:</span> run test
+            <span id="terminal_output">Awaiting message...<br></span>
+
+                          
+</pre>
+                        </div>
+
+                        <div class="hidden lg:flex bg-gray-800/40 ring-1 ring-white/5 max-w-4xl">
+                            <label for="terminal_input">
+                                <div class="-mb-px flex text-sm font-medium leading-6 text-gray-400">
+                                    <div
+                                        class="border-b border-r border-b-white/20 border-r-white/10 bg-white/5 py-2 px-4 text-white">
+                                        &nbsp;&nbsp;&nbsp;Enter your message:
+                                    </div>
+                                </div>
+                            </label>
+                            <div class="-mb-px flex text-sm font-medium leading-6 text-gray-400 grow">
+                                <input type="text" name="terminal_input" id="terminal_input" maxlength="70" required
+                                    placeholder="kayle@ai~$:" class="border-none bg-transparent grow text-zinc-50">
+                            </div>
+                            <!-- submit button -->
+                            <button onclick="terminal_demo()" id="terminal_button">
+                                <div class="-mb-px flex text-sm font-medium leading-6 text-gray-400">
+                                    <div
+                                        class="border-b border-l border-b-white/20 border-l-white/10 bg-white/5 py-2 px-4 text-white">
+                                        Submit&nbsp;&nbsp;&nbsp;
+                                    </div>
+                                </div>
+                            </button>
+                        </div>
+                        <div class="flex lg:hidden bg-gray-800/40 ring-1 ring-white/5 max-w-4xl">
+                            <div class="-mb-px flex text-sm font-medium leading-6 text-gray-400">
+                                <div
+                                    class="border-b border-r border-b-white/20 border-r-white/10 bg-white/5 py-2 px-4 text-white">
+                                    &nbsp;&nbsp;&nbsp;This demo is only available on desktop, sorry!
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -548,6 +622,91 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        var count = 0;
+
+        function terminal_demo() {
+            count += 1;
+            var input = document.getElementById("terminal_input").value;
+            var output = document.getElementById("terminal_output").value;
+
+            // if empty, return
+            if (input == "") {
+                return;
+            }
+
+            var terminal_button = document.getElementById("terminal_button");
+            terminal_button.disabled = true;
+            // add cursor-wait to the button
+            terminal_button.classList.add("cursor-wait");
+            // disable input
+            document.getElementById("terminal_input").disabled = true;
+            // set placeholder to the value
+            document.getElementById("terminal_input").placeholder = input;
+            document.getElementById("terminal_input").value = "";
+            // change output html to "Processing message..."
+            document.getElementById("terminal_output").innerHTML = "Processing message...<br>";
+            // now send the input to /api/ using jQuery and AJAX
+            var formData = new FormData();
+            formData.append('input', input);
+
+            $.ajax({
+                url: "https://kayle.ai/api/",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    // enable input
+                    document.getElementById("terminal_input").disabled = false;
+                    // set placeholder to the value
+                    document.getElementById("terminal_input").placeholder = "kayle@ai~$:";
+
+                    document.getElementById("terminal_output").innerHTML = "Message: " + input + "<br>            Scored &rarr; " + data;
+
+                    // remove cursor-wait from the button
+                    terminal_button.classList.remove("cursor-wait");
+
+                    // enable button
+                    terminal_button.disabled = false;
+
+                    if (count > 2) {
+                        document.getElementById("terminal_output").innerHTML = document.getElementById("terminal_output").innerHTML + "<br>            Seems like you got the hang of it! Let’s get you started! <br>            Create an account at <a href='https://kayle.ai/start' class='underline'>https://kayle.ai/start</a>!";
+                        document.getElementById("terminal_input").disabled = true;
+                        terminal_button.classList.add("cursor-not-allowed");
+                    }
+
+                },
+                failure: function (errMsg) {
+                    // enable input
+                    document.getElementById("terminal_input").disabled = false;
+                    // set placeholder to the value
+                    document.getElementById("terminal_input").placeholder = "kayle@ai~$:";
+
+                    document.getElementById("terminal_output").innerHTML = "Something went wrong!";
+                    // remove cursor-wait from the button
+                    terminal_button.classList.remove("cursor-wait");
+
+                    // enable button
+                    terminal_button.disabled = false;
+                }
+            });
+        }
+
+        // Get the input field element
+        var terminal_input = document.getElementById("terminal_input");
+
+        // Add a "keydown" event listener to the input field
+        terminal_input.addEventListener("keydown", function (event) {
+            // Check if the Enter key was pressed (keyCode 13)
+            if (event.keyCode === 13) {
+                // Call the terminal_demo() function
+                terminal_demo();
+            }
+        });
+
+    </script>
 
 
 </body>
