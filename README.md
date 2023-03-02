@@ -1,6 +1,6 @@
 # KayleAI Landing Page
 
-> KayleAI is a free, open-source, artificial intelligence powered service that allows developers to protect children from unsafe messages online.
+> KayleAI is an artificial intelligence powered service that allows developers to protect children from unsafe messages online.
 
 This is the KayleAI Landing Page, built using Tailwind CSS (and Tailwind UI).
 
