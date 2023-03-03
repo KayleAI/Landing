@@ -1453,10 +1453,6 @@ select {
   margin-bottom: -1px;
 }
 
-.-ml-4 {
-  margin-left: -1rem;
-}
-
 .-mt-2 {
   margin-top: -0.5rem;
 }
@@ -1697,12 +1693,12 @@ select {
   transform: translate3d(var(--tw-translate-x), var(--tw-translate-y), 0) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
-.cursor-wait {
-  cursor: wait;
-}
-
 .cursor-not-allowed {
   cursor: not-allowed;
+}
+
+.cursor-wait {
+  cursor: wait;
 }
 
 .appearance-none {
@@ -2195,6 +2191,11 @@ select {
   color: rgb(161 161 170 / var(--tw-text-opacity));
 }
 
+.text-zinc-50 {
+  --tw-text-opacity: 1;
+  color: rgb(250 250 250 / var(--tw-text-opacity));
+}
+
 .text-zinc-500 {
   --tw-text-opacity: 1;
   color: rgb(113 113 122 / var(--tw-text-opacity));
@@ -2217,11 +2218,6 @@ select {
 
 .text-zinc-900\/60 {
   color: rgb(24 24 27 / 0.6);
-}
-
-.text-zinc-50 {
-  --tw-text-opacity: 1;
-  color: rgb(250 250 250 / var(--tw-text-opacity));
 }
 
 .underline {
@@ -2470,10 +2466,6 @@ select {
 
   .sm\:gap-y-14 {
     row-gap: 3.5rem;
-  }
-
-  .sm\:rounded-3xl {
-    border-radius: 1.5rem;
   }
 
   .sm\:rounded-lg {
